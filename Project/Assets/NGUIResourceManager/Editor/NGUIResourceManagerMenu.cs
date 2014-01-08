@@ -35,9 +35,18 @@ public class NGUIResourceManagerMenu
                 string path = AssetDatabase.GetAssetPath(tex.GetInstanceID());
                 System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex("Resources");
                 System.Text.RegularExpressions.Match match = regex.Match(path);
-                path = path.Substring(match.Index + "Resources/".Length);
-                path = path.Substring(0, path.Length - ".png".Length);
-                ats.paths.Add(path);
+                if (match.Success)
+                {
+                    path = path.Substring(match.Index + "Resources/".Length);
+                    path = path.Substring(0, path.Length - ".png".Length);
+                    ats.paths.Add(path);
+                }
+                else
+                {
+                    Debug.LogError("the texture:" + tex.name + " must put under Resources folder");
+                    ats.paths.Add(string.Empty);
+                }
+
             }
             else
                 ats.paths.Add(string.Empty);
